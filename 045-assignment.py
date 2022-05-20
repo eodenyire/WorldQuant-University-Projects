@@ -137,26 +137,18 @@ def wrangle(db_path):
 
     # Read query results into DataFrame
     df = pd.read_sql(query, conn, index_col="b_id")
-    
+
     # Identify leaky columns
     drop_cols=[col for col in df.columns if "post_eq" in col]
-    
+
     # Create binany target
     df["damage_grade"] = df["damage_grade"].str[-1].astype(int)
     df["severe_damage"] = (df["damage_grade"] > 3).astype(int)
-    
-    # Drop old target
-    drop_cols.append("damage_grade")
-    
-    # Drop multicollinearity
-    drop_cols.append("count_floors_pre_eq")
-    
-    # Drop high-cardinality categorical columns
-    drop_cols.append("building_id")
-    
+
+    drop_cols.extend(("damage_grade", "count_floors_pre_eq", "building_id"))
     # Drop columns
     df.drop(columns=drop_cols, inplace=True)
-              
+
     return df
 
 

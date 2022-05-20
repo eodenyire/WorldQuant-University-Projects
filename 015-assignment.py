@@ -435,25 +435,15 @@ with open("images/1-5-18.png", "rb") as file:
     wqet_grader.grade("Project 1 Assessment", "Task 1.5.18", file)
 
 
-# **Task 1.5.19:** Create a dictionary `south_states_corr`, where the keys are the names of the three states in the `"South"` region of Brazil, and their associated values are the correlation coefficient between `"area_m2"` and `"price_usd"` in that state.
-# 
-# As an example, here's a dictionary with the states and correlation coefficients for the Southeast region. Since you're looking at a different region, the states and coefficients will be different, but the structure of the dictionary will be the same.
-# 
-# ```python
-# {'Espírito Santo': 0.6311332554173303,
-#  'Minas Gerais': 0.5830029036378931,
-#  'Rio de Janeiro': 0.4554077103515366,
-#  'São Paulo': 0.45882050624839366}
-# ```
-
-# In[108]:
-
-
-south_states_corr={}
 df_south_Santa = df_south[df_south["state"]=="Santa Catarina"]
 df_south_Par = df_south[df_south["state"]=="Paraná"]
 
-south_states_corr["Rio Grande do Sul"] = df_south_large["area_m2"].corr(df_south_large["price_usd"])
+south_states_corr = {
+    "Rio Grande do Sul": df_south_large["area_m2"].corr(
+        df_south_large["price_usd"]
+    )
+}
+
 south_states_corr["Santa Catarina"] = df_south_Santa["area_m2"].corr(df_south_Santa["price_usd"])
 south_states_corr["Paraná"] = df_south_Par["area_m2"].corr(df_south_Par["price_usd"])
 south_states_corr
