@@ -114,8 +114,7 @@ wqet_grader.grade("Project 5 Assessment", "Task 5.5.4", [n_features])
 def wrangle(filename):
     with gzip.open(filename, "r") as f:
         data = json.load(f)
-    df = pd.DataFrame().from_dict(data["observations"]).set_index("id")
-    return df
+    return pd.DataFrame().from_dict(data["observations"]).set_index("id")
 
 
 # In[16]:

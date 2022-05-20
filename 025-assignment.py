@@ -69,32 +69,32 @@ def wrangle(filepath):
     mask1 = (df['property_type'] == 'apartment')
     mask2 = (df['price_aprox_usd'] < 100000)
     mask3 = (df['place_with_parent_names'].str.contains('Distrito Federal'))
-    
-    
+
+
     df = df[mask1 & mask2 & mask3]
-    
+
     low, high = df['surface_covered_in_m2'].quantile([0.1, 0.9])
     maskArea = df['surface_covered_in_m2'].between(low, high)
     df = df[maskArea]
-    
+
     df[['lat', 'lon']] = df['lat-lon'].str.split(',', expand=True).astype(float)
     df = df.drop(columns='lat-lon')
-    
+
     df['borough'] = df['place_with_parent_names'].str.split('|', expand=True)[1]
     df = df.drop(columns='place_with_parent_names')
-    
-    columns_na = [i for i in df.columns if df[i].isna().sum() > int(len(df)/2)]
+
+    columns_na = [i for i in df.columns if df[i].isna().sum() > len(df) // 2]
     df = df.drop(columns = columns_na)
-    
+
     list_card = ["operation", "property_type",  "currency", "properati_url"]
     df = df.drop(columns = list_card)
-    
+
     #leakage 
     highlow_cardinality = ['price', 'price_aprox_local_currency', 'price_per_m2']
     df = df.drop(columns = highlow_cardinality)
-    
-    
-    
+
+
+
     return df
 
 
@@ -371,7 +371,7 @@ model.named_steps['ridge'].get_params
 
 coefficients = model.named_steps['ridge'].coef_
 features = df.columns
-feat_imp = pd.Series(coefficients[0:5], index=features)
+feat_imp = pd.Series(coefficients[:5], index=features)
 feat_imp
 
 

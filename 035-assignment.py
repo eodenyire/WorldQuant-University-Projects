@@ -176,10 +176,7 @@ def wrangle(collection):
     # Remove outliers
     df = df[df["P2"] < 100]
 
-    # Resample and forward-fill
-    y = df["P2"].resample("1H").mean().fillna(method="ffill")
-
-    return y
+    return df["P2"].resample("1H").mean().fillna(method="ffill")
 
 
 # Use your `wrangle` function to query the `dar` collection and return your cleaned results.
@@ -221,10 +218,7 @@ def wrangle(collection):
     # Remove outliers
     df = df[df["P2"] < 100]
 
-    # Resample and forward-fill
-    y = df["P2"].resample("1H").mean().fillna(method="ffill")
-
-    return y
+    return df["P2"].resample("1H").mean().fillna(method="ffill")
 
 
 # In[22]:
@@ -535,12 +529,12 @@ with open("images/3-5-15.png", "rb") as file:
 
 y_pred_wfv = pd.Series()
 history = y_train.copy()
-for i in range(len(y_test)):
+for _ in range(len(y_test)):
     model = AutoReg(history, lags=28).fit()
     next_pred = model.forecast()
     y_pred_wfv = y_pred_wfv.append(next_pred) # series can append
     history = history.append(y_test[next_pred.index]) #dont append the whole y_test, use the timestamp using .index
-    
+
 y_pred_wfv.name = "prediction"
 y_pred_wfv.index.name = "timestamp"
 y_pred_wfv.head()
